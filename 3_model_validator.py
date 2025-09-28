@@ -16,6 +16,14 @@ class Employee(BaseModel):
             return model
         else:
             raise ValueError("Not a Mahindra employee")
+        
+    @model_validator(mode='after')
+    def emergency_contact_validation(cls, model):
+
+        if model.age>60 and 'emergency' not in model.contact_details:
+            raise ValueError('Patient older than 60 years of age should have emergency contact details')
+        else:
+            return model
 
 
 def update_employee_details(employee:Employee):
